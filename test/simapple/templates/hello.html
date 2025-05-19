@@ -8,8 +8,8 @@
 		<p>Soy Milan. Yo queiro agua</p>
 		<br>
 		<ul>
-			{% for x in allGreetings %}
-				<li>{{ x.firstgreet}} {{x.secondgreet}}</li>
+			{% for x in people %}
+				<li><a href="details/{{ x.id }}">{{ x.firstName}} {{x.lastName}}</li>
 			{% endfor %}
 		</ul>
 	</body>
