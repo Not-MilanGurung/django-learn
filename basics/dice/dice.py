@@ -1,4 +1,5 @@
 import random
+from basics.simple.simple import add
 
 def roll():
 	print("\nEnter 1 to roll the dice")
@@ -14,6 +15,6 @@ def roll():
 	else:
 		print("Exiting")
 
-
 if __name__ == "__main__":
 	roll()
+	print(add(4,2))
