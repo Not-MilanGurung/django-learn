@@ -1,5 +1,5 @@
 import random
-from basics.simple.simple import add
+from simple.simple import add
 
 def roll():
 	print("\nEnter 1 to roll the dice")
