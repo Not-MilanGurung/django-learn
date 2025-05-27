@@ -3,13 +3,17 @@ from django.http import HttpResponse
 from django.template import loader
 from .models import People
 
-def homepage(request):
+def people(request):
 	data = People.objects.all().values()
-	template = loader.get_template('hello.html')
+	template = loader.get_template('people.html')
 	context = {
 		'people' : data
 	}
 	return HttpResponse(template.render(context, request))
+
+def homepage(request):
+     template = loader.get_template('main.html')
+     return HttpResponse(template.render(request=request))
 
 def details(request, id):
   person = People.objects.get(id=id)

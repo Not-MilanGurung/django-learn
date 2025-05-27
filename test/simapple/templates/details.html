@@ -1,14 +1,14 @@
-<!DOCTYPE html>
-<html>
+{% extends "master.html" %}
 
-	<body>
+{% block title %}
+	Details about {{person.firstName}} {{person.lastName}}
+{% endblock %}
 
-		<h1>{{ person.firstName }} {{ person.lastName }}</h1>
-	
-		<p>Phone: {{ person.phone }}</p>
-		<p>Email : {{ person.email }}</p>
+{% block content %}
+	<h1>{{ person.firstName }} {{ person.lastName }}</h1>
 
-		<p>Back to <a href="/">Homepage</a></p>
+	<p>Phone: {{ person.phone }}</p>
+	<p>Email : {{ person.email }}</p>
 
-	</body>
-</html>
+	<p>Back to <a href="/">Homepage</a></p>
+{% endblock %}
