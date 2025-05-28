@@ -5,3 +5,5 @@ Learning Django
 For Linux or Mac
 `source /bin/activate`
 
+# Running the server
+`python test/manage.py runserver`

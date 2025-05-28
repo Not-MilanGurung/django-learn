@@ -1,0 +1,35 @@
+/* General reset and font setup */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 40px;
+    background-color: #adebe5;
+    color: #333;
+}
+
+/* Headings */
+h1 {
+    color: #2c3e50;
+    font-size: 2.5em;
+}
+
+h2 {
+    color: #34495e;
+    font-size: 1.8em;
+}
+
+/* Paragraph */
+p {
+    font-size: 1em;
+    max-width: 600px;
+}
+
+/* Links */
+a {
+    color: #2980b9;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
