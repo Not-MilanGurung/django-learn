@@ -2,10 +2,15 @@
 {% load static %}
 <html>
 	<head>
-		<link rel="stylesheet" href="{% static "css/mystyle.css" %}">
+		<link rel="stylesheet" href="{% static "myGlobalStyle.css" %}">
 		<title>{% block title %}{% endblock  %}</title>
 	</head>
 	<body>
+		<div class="topNav">
+			<a href="/">HOME</a>
+			<a href="/people">PEOPLE</a>
+		</div>
+		
 		{% block content %}
 		{% endblock %}
 	</body>
