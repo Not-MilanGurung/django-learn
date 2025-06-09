@@ -1,0 +1,16 @@
+{% extends 'master.html' %}
+
+{% block title %}
+	List of Genres
+{% endblock %}
+
+{% block content %}
+	<div class="genreCard">
+		<h1>Genres</h1>
+		<ul>
+			{% for genre in genreList %}
+				<li> {{genre.id}} {{genre.name}}</li>
+			{% endfor %}
+		</ul>
+	</div>
+{% endblock %}
