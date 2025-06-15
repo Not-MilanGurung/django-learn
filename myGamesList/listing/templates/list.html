@@ -1,9 +1,28 @@
 {% extends 'master.html'%}
+{% load static %}
 
 {% block title%}
 	List of my games
 {% endblock %}
 
+{% block head %}
+ <link rel="stylesheet" href="{% static "globalstyle.css" %}">
+{% endblock %}
+
 {% block content %}
 	<h1>My games list</h1>
+	<table>
+		<tr>
+			<th>Name</h1>
+			<th>No of Replays</h1>
+			<th>Rating</h1>
+		</tr>
+		{% for game in gameList %}
+		<tr>
+			<td>{{game.name}}</td>
+			<td>{{game.noOfReplays}}</td>
+			<td>{{game.rating}}</td>
+		</tr>
+		{% endfor %}
+	</table>
 {% endblock %}
