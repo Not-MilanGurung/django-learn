@@ -5,9 +5,6 @@
 	List of my games
 {% endblock %}
 
-{% block head %}
- <link rel="stylesheet" href="{% static "globalstyle.css" %}">
-{% endblock %}
 
 {% block content %}
 	<h1>My games list</h1>
@@ -23,6 +20,10 @@
 			<td>{{game.noOfReplays}}</td>
 			<td>{{game.rating}}</td>
 		</tr>
+		{% empty %}
+        <tr>
+            <td colspan="3">No games available.</td>
+        </tr>
 		{% endfor %}
 	</table>
 {% endblock %}

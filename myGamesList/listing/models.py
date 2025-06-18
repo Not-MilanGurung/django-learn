@@ -20,7 +20,7 @@ class Play(models.Model):
 
 
 class Genre(models.Model):
-	name = models.CharField(max_length=255)
+	name = models.CharField(max_length=255, primary_key=True)
 
 	def __str__(self):
 		return f'{self.name}'
