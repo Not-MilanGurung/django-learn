@@ -7,9 +7,6 @@ class GenresAdmin(admin.ModelAdmin):
 class GamesAdmin(admin.ModelAdmin):
 	list_display = ('name', 'noOfReplays', 'rating')
 
-class PlaysAdmin(admin.ModelAdmin):
-	list_display = ('game', 'replay', 'timeSpentPlaying', 'startDate', 'completedDate')
 
 admin.site.register(Genre, GenresAdmin)
 admin.site.register(Game, GamesAdmin)
-admin.site.register(Play, PlaysAdmin)

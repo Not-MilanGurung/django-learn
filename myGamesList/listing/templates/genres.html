@@ -25,14 +25,14 @@
 					</form>
 
 					<div class="button-group">
-						<button class="btn edit-btn" onclick="enableEdit('{{ genre.name }}')">Edit</button>
-						<button class="btn confirm-btn" onclick="confirmEdit('{{ genre.name }}')" id="edit_{{ genre.name }}" style="display:none;">Confirm</button>
+						<button class="btn edit-btn" onclick="editConfirm('{{ genre.name }}')" id="edit_confirm_{{genre.name}}">Edit</button>
+
 						<form id="delete_form_{{ genre.name }}" method="post" style="display:inline;">
 							{% csrf_token %}
 							<input type="hidden" name="action" value="delete">
 							<input type="hidden" name="genre_name" value="{{ genre.name }}">
 						</form>
-						<button class="btn delete-btn" onclick="confirmDelete('{{ genre.name }}')">Delete</button>
+						<button class="btn delete-cancel-btn" onclick="deleteCancel('{{ genre.name }}')" id="delete_cancel_{{genre.name}}">Delete</button>
 					</div>
 				</li>
 			{% empty %}

@@ -118,8 +118,17 @@ td {
     transition: background-color 0.3s ease;
 }
 
+
+.btn.delete-cancel-btn{
+	background-color: crimson;
+}
+
 .btn:hover {
     background-color: #009e6f;
+}
+
+.btn.delete-cancel-btn:hover {
+	background-color: rgb(143, 18, 43);
 }
 
 .edit-input {

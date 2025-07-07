@@ -5,20 +5,35 @@
 	List of my games
 {% endblock %}
 
+{% block head%}
+	<script src="{% static 'listing/js/myList.js' %}"></script>
+{% endblock %}
+
 
 {% block content %}
 	<h1>My games list</h1>
 	<table>
 		<tr>
-			<th>Name</h1>
-			<th>No of Replays</h1>
-			<th>Rating</h1>
+			<th>Name</th>
+			<th>No of Replays</th>
+			<th>Rating</th>
+			<th>Options</th>
 		</tr>
 		{% for game in gameList %}
 		<tr>
 			<td>{{game.name}}</td>
 			<td>{{game.noOfReplays}}</td>
 			<td>{{game.rating}}</td>
+			<td>
+				<div class="button-group">
+					<form id="delete_form_{{game.name}}" method="post" style="display:inline;">
+						{% csrf_token %}
+						<input type="hidden" name="action" value="delete">
+						<input type="hidden" name="game_name" value="{{game.name}}">
+					</form>
+					<button class="btn delete-cancel-btn" onclick="deleteGame('{{game.name}}')" id="delete_{{game.name}}">Delete</button>
+				</div>
+			</td>
 		</tr>
 		{% empty %}
         <tr>
