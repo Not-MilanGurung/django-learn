@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
-from rest_framework import viewsets, permissions, views, status
+from django.contrib.auth.models import User
+from rest_framework import viewsets, views, status, generics, permissions, authentication
 from rest_framework.response import Response
 from .models import Genre, Game
-from .serializers import GameSerializer, GenreSerializer
+from .serializers import GameSerializer, GenreSerializer, UserSerializer
+from .permissions import IsOwnerOrReadOnly
 
 # Create your views here.
 def myList(request):
@@ -77,63 +79,38 @@ def add_game(request):
     return render(request, 'add_game.html', {
         'genres': Genre.objects.all()
     })
+    
+class GameList(generics.ListCreateAPIView):
+	queryset = Game.objects.all()
+	serializer_class = GameSerializer
+	permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
-class GameViewSet(viewsets.ViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Game.objects.all().order_by('name')
+	def perform_create(self, serializer):
+		serializer.save(owner=self.request.user)
+
+class GameDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Game.objects.all()
     serializer_class = GameSerializer
-    permission_classes = [permissions.IsAuthenticated]
-        
-class GenreViewSet(viewsets.ViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Genre.objects.all().order_by('name')
-    serializer_class = GenreSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,
+							IsOwnerOrReadOnly]
     
-class GameList(views.APIView):
-    """
-    List all snippets, or create a new game.
-    """
+
+class UserList(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    
+class ExampleView(views.APIView):
+    authentication_classes = [authentication.SessionAuthentication, authentication.BasicAuthentication]
+    permission_classes = [permissions.IsAuthenticated]
+
     def get(self, request, format=None):
-        games = Game.objects.all()
-        serializer = GameSerializer(games, many=True)
-        return Response(serializer.data)
-
-    def post(self, request, format=None):
-        serializer = GameSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-class GameDetail(views.APIView):
-    """
-    Retrieve, update or delete a game instance.
-    """
-    def get_object(self, name):
-        try:
-            return Game.objects.get(pk=name)
-        except Game.DoesNotExist:
-            raise Http404
-
-    def get(self, request, name, format=None):
-        game = self.get_object(name)
-        serializer = GameSerializer(game)
-        return Response(serializer.data)
-
-    def put(self, request, name, format=None):
-        game = self.get_object(name)
-        serializer = GameSerializer(game, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def delete(self, request, name, format=None):
-        game = self.get_object(name)
-        game.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        content = {
+            'user': str(request.user),  # `django.contrib.auth.User` instance.
+            'auth': str(request.auth),  # None
+        }
+        return Response(content)
