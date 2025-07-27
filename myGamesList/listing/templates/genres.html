@@ -14,7 +14,7 @@
 		<h1>Genres</h1>
 		<ul>
 			{% for genre in genreList %}
-				<li class="genre-item">
+				<li class="genre-item" id="genre_{{genre.name}}">
 					<span id="display_{{ genre.name }}">{{ genre.name }}</span>
 
 					<form id="edit_form_{{ genre.name }}" method="post" class="edit-form">
@@ -26,12 +26,6 @@
 
 					<div class="button-group">
 						<button class="btn edit-btn" onclick="editConfirm('{{ genre.name }}')" id="edit_confirm_{{genre.name}}">Edit</button>
-
-						<form id="delete_form_{{ genre.name }}" method="post" style="display:inline;">
-							{% csrf_token %}
-							<input type="hidden" name="action" value="delete">
-							<input type="hidden" name="genre_name" value="{{ genre.name }}">
-						</form>
 						<button class="btn delete-cancel-btn" onclick="deleteCancel('{{ genre.name }}')" id="delete_cancel_{{genre.name}}">Delete</button>
 					</div>
 				</li>
@@ -42,8 +36,7 @@
 
 		<form method="post" class="add-genre-form">
 			{% csrf_token %}
-			<input type="hidden" name="action" value="add">
-			<input type="text" name="genre_name" placeholder="Enter new genre name" required>
+			<input type="text" name="name" placeholder="Enter new genre name" required>
 			<button class="btn add-btn" type="submit">Add Genre</button>
 		</form>
 	</div>

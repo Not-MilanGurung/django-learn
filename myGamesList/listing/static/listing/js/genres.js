@@ -36,9 +36,33 @@ function editConfirm(name) {
 }
 
 function confirmDelete(name) {
-    if (confirm("Are you sure you want to delete genre '" + name + "'?")) {
-        document.getElementById('delete_form_' + name).submit();
-    }
+    if (!confirm("Are you sure you want to delete genre '" + name + "'?")) return;
+    fetch(`/genres/${encodeURIComponent(name)}/`, {
+        method: 'DELETE',
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')  // if needed for CSRF/session
+        },
+        credentials: 'include'  // required for JWT in cookies
+    })
+    .then(response => {
+        if (response.status === 204) {
+            // Success: remove genre from DOM
+            document.getElementById('genre_' + name).remove();
+        } else {
+            return response.json().then(data => {
+                alert("Error: " + (data.detail || "Could not delete genre."));
+            });
+        }
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Network error while deleting genre.");
+    });
+}
+
+function getCookie(name) {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? decodeURIComponent(match[2]) : null;
 }
 
 function confirmEdit(name) {
@@ -48,6 +72,26 @@ function confirmEdit(name) {
         return false;
     }
     if (confirm("Change genre '" + name + "' to '" + newName + "'?")) {
-        document.getElementById('edit_form_' + name).submit();
+        fetch(`/genres/${encodeURIComponent(name)}/`, {
+			method: 'DELETE',
+			headers: {
+				'X-CSRFToken': getCookie('csrftoken')  // if needed for CSRF/session
+			},
+			credentials: 'include'  // required for JWT in cookies
+		})
+		.then(response => {
+			if (response.status === 204) {
+				// Success: remove genre from DOM
+				document.getElementById('genre_' + name).remove();
+			} else {
+				return response.json().then(data => {
+					alert("Error: " + (data.detail || "Could not delete genre."));
+				});
+			}
+		})
+		.catch(err => {
+			console.error(err);
+			alert("Network error while deleting genre.");
+		});
     }
 }

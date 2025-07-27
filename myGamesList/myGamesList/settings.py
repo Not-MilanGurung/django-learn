@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from .securityKeys import SECRET_KEY
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,8 +40,10 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 	'rest_framework',
     'rest_framework_simplejwt',
+	'rest_framework_simplejwt.token_blacklist',
 	'requests',
 	'listing',
+	'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'myGamesList.middleware.JWTAuthCookieMiddleware',
 	'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
@@ -78,10 +82,24 @@ WSGI_APPLICATION = 'myGamesList.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+	'default': {
+		'ENGINE': 'django.db.backends.postgresql',
+		'NAME':'firstDatabase',
+		'USER':'admin',
+		'HOST':'localhost',
+		'PORT':'5432',
+	}
+	# 'default': {
+	# 	'ENGINE': 'django.db.backends.mysql',
+	# 	'NAME':'firstDatabase',
+	# 	'USER':'admin',
+	# 	'HOST':'localhost',
+	# 	'PORT':'5432',
+	# }
 }
 
 
@@ -125,6 +143,9 @@ STATICFILES_DIRS = [
 	BASE_DIR / 'static'
 ]
 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
@@ -135,8 +156,19 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 10,
 	"DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
+		"rest_framework.authentication.SessionAuthentication",
     ],
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
-    ],
+}
+
+ACCESS_TOKEN_LIFETIME = timedelta(minutes=5)
+REFRESH_TOKEN_LIFETIME = timedelta(days=1)
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": ACCESS_TOKEN_LIFETIME,
+    "REFRESH_TOKEN_LIFETIME": REFRESH_TOKEN_LIFETIME,
+
+    "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
+    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
+
 }

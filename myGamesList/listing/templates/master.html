@@ -4,6 +4,7 @@
 	<head>
 		<title>{% block title %}{% endblock %}</title>
 		<link rel="stylesheet" href="{% static 'globalstyle.css' %}">
+		<script src="{% static 'listing/js/navbar.js' %}"></script>
 		{% block head %} {% endblock %}
 	</head>
 	<body>
@@ -11,7 +12,18 @@
 			<ul>
 				<li><a href="{% url 'MyList' %}">Home</a></li>
 				<li><a href="{% url 'ListOfGenre' %}">Genres</a></li>
-				<li><a href="{% url 'AddGame'%}">Add Game</a></li>
+				<div class="nav-right">
+					{% if request.user.is_authenticated %}
+					<span>👤 {{ request.user.username }}</span>
+					<form action="{% url 'logout' %}" id="logout_form" method="post" style="display:inline;">
+						{% csrf_token %}
+					</form>
+					<button onClick="confirmLogout()">Logout</button>
+					{% else %}
+					<a href="{% url 'login' %}">Login</a>
+					<a href="{% url 'register' %}">Register</a>
+					{% endif %}
+				</div>
 			</ul>
 		</nav>
 
