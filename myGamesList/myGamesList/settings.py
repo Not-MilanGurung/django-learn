@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from .securityKeys import SECRET_KEY
+from .securityKeys import SECRET_KEY, POSTGRES_PASSWORD
 from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -88,8 +88,9 @@ DATABASES = {
     # }
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql',
-		'NAME':'firstDatabase',
-		'USER':'admin',
+		'NAME':'myGamesList',
+		'USER':'postgres',
+        'PASSWORD': POSTGRES_PASSWORD,
 		'HOST':'localhost',
 		'PORT':'5432',
 	}
