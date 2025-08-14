@@ -15,15 +15,13 @@
 	<table>
 		<tr>
 			<th>Name</th>
-			<th>No of Replays</th>
-			<th>Rating</th>
+			<th>Release Date</th>
 			<th>Options</th>
 		</tr>
 		{% for game in gameList %}
 		<tr>
 			<td><a href="{{game.name}}">{{game.name}}</a></td>
-			<td>{{game.noOfReplays}}</td>
-			<td>{{game.rating}}</td>
+			<td>{{game.release_date}}</td>
 			<td>
 				<div class="button-group">
 					<form id="delete_form_{{game.name}}" method="delete" style="display:inline;">
