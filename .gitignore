@@ -8,7 +8,7 @@ __pycache__
 db.sqlite3
 media
 migrations/
-securityKeys.py
+productionfiles/
 
 # Backup files # 
 *.bak 
