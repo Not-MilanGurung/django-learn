@@ -1,0 +1,17 @@
+{% extends 'master.html'%}
+
+{% block title %}
+    List of Genres
+{% endblock %}
+
+{% block content %}
+	<div class="loginCard">
+		<h1> Login </h1>
+		<form id="loginForm" method="post">
+			{% csrf_token %}
+			<input type="text" name="username">
+			<input type="password" name="password">
+			<input type="submit" value="Login">
+		</form>
+	</div>
+{% endblock %}

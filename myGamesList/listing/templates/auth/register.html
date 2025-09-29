@@ -1,0 +1,30 @@
+{% extends 'master.html' %}
+{% load static%}
+{% block title %}
+    Register
+{% endblock %}
+
+{% block head%}
+	<script src="{% static 'listing/js/auth/register.js' %}"></script>
+{% endblock%}
+
+{% block content %}
+    <div class="genreCard" style="max-width: 500px;">
+        <h1 style="background-color: var(--main-green-dark); color: white;">Register</h1>
+        
+        <form id="registerForm" method="post">
+            {% csrf_token %}
+            
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+                <input class="edit-input" type="text" name="username" placeholder="Username" required>
+                <input class="edit-input" type="password" name="password" placeholder="Password" required>
+                <input class="edit-input" type="password" name="password_confirm" placeholder="Confirm Password" required>
+                <input class="edit-input" type="email" name="email" placeholder="Email" required>
+                <input class="edit-input" type="text" name="first_name" placeholder="First Name">
+                <input class="edit-input" type="text" name="last_name" placeholder="Last Name">
+                
+                <input class="btn" type="button" onclick="confirmPassword()" value="Register">
+            </div>
+        </form>
+    </div>
+{% endblock %}

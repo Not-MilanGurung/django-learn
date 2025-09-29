@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from .securityKeys import SECRET_KEY
+import myGamesList.config as config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
+SECRET_KEY = config.SECRET_KEY
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,7 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+	'rest_framework',
+    'rest_framework_simplejwt',
+	'rest_framework_simplejwt.token_blacklist',
+	'requests',
 	'listing',
+	'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'myGamesList.middleware.JWTAuthCookieMiddleware',
 	'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
@@ -75,10 +81,25 @@ WSGI_APPLICATION = 'myGamesList.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+	'default': {
+		'ENGINE': config.DATABASE_ENGINE,
+		'NAME':config.DATABASE_NAME,
+		'USER': config.DATABASE_USER,
+        'PASSWORD': config.DATABASE_PASSWORD,
+		'HOST':config.DATABASE_HOST,
+		'PORT':config.DATABASE_PORT,
+	}
+	# 'default': {
+	# 	'ENGINE': 'django.db.backends.mysql',
+	# 	'NAME':'firstDatabase',
+	# 	'USER':'admin',
+	# 	'HOST':'localhost',
+	# 	'PORT':'5432',
+	# }
 }
 
 
@@ -122,7 +143,30 @@ STATICFILES_DIRS = [
 	BASE_DIR / 'static'
 ]
 
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+	"DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+		"rest_framework.authentication.SessionAuthentication",
+    ],
+}
+
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": config.JWT_ACCESS_TOKEN_LIFETIME,
+    "REFRESH_TOKEN_LIFETIME": config.JWT_REFRESH_TOKEN_LIFETIME,
+
+    "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
+    "SLIDING_TOKEN_LIFETIME": config.JWT_SLIDING_TOKEN_LIFETIME,
+    "SLIDING_TOKEN_REFRESH_LIFETIME": config.JWT_SLIDING_TOKEN_REFRESH_LIFETIME,
+
+}
