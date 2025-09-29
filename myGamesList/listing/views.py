@@ -11,7 +11,7 @@ from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
 from .models import Genre, Game, Image, PDFDocument
 from .serializers import *
 from .permissions import IsOwnerOrReadOnly
-from myGamesList.settings import ACCESS_TOKEN_LIFETIME, REFRESH_TOKEN_LIFETIME
+from myGamesList.config import JWT_ACCESS_TOKEN_LIFETIME, JWT_REFRESH_TOKEN_LIFETIME
 
 
 def genre_list(request):
@@ -184,7 +184,7 @@ class CookieLoginView(TokenObtainPairView):
 				httponly=True,
 				secure=True,  # Set to True with HTTPS in production
 				samesite="Lax",
-				expires=timezone.now() + ACCESS_TOKEN_LIFETIME,
+				expires=timezone.now() + JWT_ACCESS_TOKEN_LIFETIME,
 			)
 			response.set_cookie(
 				key="refresh_token",
@@ -192,7 +192,7 @@ class CookieLoginView(TokenObtainPairView):
 				httponly=True,
 				secure=True,
 				samesite="Lax",
-				expires=timezone.now() + REFRESH_TOKEN_LIFETIME,
+				expires=timezone.now() + JWT_REFRESH_TOKEN_LIFETIME,
 			)
 
 			response.status_code = status.HTTP_200_OK

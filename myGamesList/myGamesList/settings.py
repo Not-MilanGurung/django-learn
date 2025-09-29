@@ -11,8 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
-from .securityKeys import SECRET_KEY, POSTGRES_PASSWORD
-from datetime import timedelta
+import myGamesList.config as config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
+SECRET_KEY = config.SECRET_KEY
 # Application definition
 
 INSTALLED_APPS = [
@@ -88,9 +87,9 @@ DATABASES = {
     # }
 	'default': {
 		'ENGINE': 'django.db.backends.postgresql',
-		'NAME':'myGamesList',
-		'USER':'postgres',
-        'PASSWORD': POSTGRES_PASSWORD,
+		'NAME':config.POSTGRES_DATABASE,
+		'USER': config.POSTGRES_USER,
+        'PASSWORD': config.POSTGRES_PASSWORD,
 		'HOST':'localhost',
 		'PORT':'5432',
 	}
@@ -161,15 +160,13 @@ REST_FRAMEWORK = {
     ],
 }
 
-ACCESS_TOKEN_LIFETIME = timedelta(minutes=5)
-REFRESH_TOKEN_LIFETIME = timedelta(days=1)
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": ACCESS_TOKEN_LIFETIME,
-    "REFRESH_TOKEN_LIFETIME": REFRESH_TOKEN_LIFETIME,
+    "ACCESS_TOKEN_LIFETIME": config.JWT_ACCESS_TOKEN_LIFETIME,
+    "REFRESH_TOKEN_LIFETIME": config.JWT_REFRESH_TOKEN_LIFETIME,
 
     "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
+    "SLIDING_TOKEN_LIFETIME": config.JWT_SLIDING_TOKEN_LIFETIME,
+    "SLIDING_TOKEN_REFRESH_LIFETIME": config.JWT_SLIDING_TOKEN_REFRESH_LIFETIME,
 
 }
