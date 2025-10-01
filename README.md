@@ -1,5 +1,7 @@
-# django-learn
-Learning Django. Still in using development server.
+# my-games-list
+Personal project to record the games like [HowLongToBeat](https://howlongtobeat.com/). It is made up of these apps:
+
+* listing
 
 ## Initial setup
 1) You need to first create a venv envrionment and install the `requirement.txt`
@@ -29,10 +31,4 @@ Learning Django. Still in using development server.
 
 5) Run the server `python myGamesList/manage.py runserver` 
 
-# Projects and their apps
-
-## 1) myGamesList
-Personal project to record the games like [HowLongToBeat](https://howlongtobeat.com/)
-
-* listing
 
